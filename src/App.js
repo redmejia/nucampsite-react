@@ -5,11 +5,11 @@ import './App.css';
 import { CAMPSITES } from "./shared/campsites";
 
 class App extends Component {
- 
-  constructor(props){
+
+  constructor(props) {
     super(props);
     this.state = {
-      campsites : CAMPSITES
+      campsites: CAMPSITES
     }
   }
 
@@ -21,7 +21,8 @@ class App extends Component {
             <NavbarBrand href="/">NuCamp</NavbarBrand>
           </div>
         </Navbar>
-      <Directory campsites={this.state.campsites} />
+        <div>hello world</div>
+        <Directory campsites={this.state.campsites} />
       </div>
     );
   }
