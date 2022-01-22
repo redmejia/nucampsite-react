@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
 class CampsiteInfo extends Component {
 
@@ -21,13 +21,14 @@ class CampsiteInfo extends Component {
 		if (comments) {
 			return (
 				<div className='col col-md-5 m-1'>
-					<h4>Comments</h4>
-					{comments.map(comment => <div className='text-left' key={comment.id}>
-						<p>{comment.text}</p>
-						<p>
-							-- {comment.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}
-						</p>
-					</div>)}
+					<h4 className='text-left'>Comments</h4>
+					<ul className='list-unstyled'>
+						{comments.map(comment => <div className='text-left' key={comment.id}>
+							<li>{comment.text}</li>
+							<li>-- {comment.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</li>
+							<p></p>
+						</div>)}
+					</ul>
 				</div>
 			)
 		}
