@@ -21,7 +21,6 @@ class App extends Component {
             <NavbarBrand href="/">NuCamp</NavbarBrand>
           </div>
         </Navbar>
-        <div>hello world</div>
         <Directory campsites={this.state.campsites} />
       </div>
     );
