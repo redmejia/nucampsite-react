@@ -18,7 +18,7 @@ class Header extends Component {
             isNavOpen: !this.state.isNavOpen
         });
     }
-
+    
     render() {
         return (
             <React.Fragment>
