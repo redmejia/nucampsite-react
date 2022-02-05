@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	Button, Card, CardImg, CardText,
 	CardBody, Breadcrumb, BreadcrumbItem,
@@ -13,69 +13,82 @@ const maxLength = len => val => !val || (val.length <= len);
 const minLength = len => val => val && (val.length >= len);
 
 
-function CommentForm() {
+class CommentForm extends React.Component {
 
-	const [isModalOpen, setModalState] = useState(false);
+	constructor(props){
+		super(props);
+		this.state = {
+			isModalOpen : false
+		}
 
-	const toggleModal = () => setModalState(!isModalOpen);
+		this.toggleModal = this.toggleModal.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
+	}
 
-	const handleSubmit = (values) => {
+	toggleModal(){
+		this.setState({
+			isModalOpen : !this.state.isModalOpen
+		})
+	}
+
+	handleSubmit(values) {
 		console.log("Current state is: " + JSON.stringify(values));
 		alert("Current state is: " + JSON.stringify(values));
 	}
 
+	render(){
 
-	return (
-		<div>
-			<Button outline onClick={toggleModal} > <i className='fa fa-pencil fa-lg' /> Submite Comment </Button>
-			<Modal isOpen={isModalOpen} toggle={toggleModal}>
-				<ModalHeader toggle={toggleModal}>Submit Comment</ModalHeader>
-				<ModalBody>
-					<LocalForm onSubmit={values => handleSubmit(values)}>
-						<div className='form-group'>
-							<Label htmlFor="rate">Rating</Label>
-							<Control.select className='form-control' model=".rating" name='rating' id='rating'>
-								<option value="5">5</option>
-								<option value="4">4</option>
-								<option value="3">3</option>
-								<option value="2">2</option>
-								<option value="1">1</option>
-							</Control.select>
-						</div>
-						<div className='form-group'>
-							<Label htmlFor="author"> Your Name</Label>
-							<Control.text model=".author" name="author" id="author"
-								placeholder='author'
-								className='form-control'
-								validators={{
-									required,
-									minLength: minLength(2),
-									maxLength: maxLength(15)
-								}}
-
-							/>
-							<Errors
-								className="text-danger"
-								model=".author"
-								component="div"
-								messages={{
-									minLength: 'Must be at least 2 characters',
-									maxLength: 'Must be 15 characters or less'
-								}}
-							/>
-						</div>
-						<div className='form-group'>
-							<Label htmlFor="comment"> Comment</Label>
-							<Control.textarea className='form-control' rows="12" model=".text" name="text" id="text" />
-						</div>
-						<Button color="primary">Submit</Button>
-					</LocalForm>
-				</ModalBody>
-			</Modal>
-
-		</div >
-
-	)
+		return (
+			<div>
+				<Button outline onClick={this.toggleModal} > <i className='fa fa-pencil fa-lg' /> Submite Comment </Button>
+				<Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+					<ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+					<ModalBody>
+						<LocalForm onSubmit={values => this.handleSubmit(values)}>
+							<div className='form-group'>
+								<Label htmlFor="rate">Rating</Label>
+								<Control.select className='form-control' model=".rating" name='rating' id='rating'>
+									<option value="5">5</option>
+									<option value="4">4</option>
+									<option value="3">3</option>
+									<option value="2">2</option>
+									<option value="1">1</option>
+								</Control.select>
+							</div>
+							<div className='form-group'>
+								<Label htmlFor="author"> Your Name</Label>
+								<Control.text model=".author" name="author" id="author"
+									placeholder='author'
+									className='form-control'
+									validators={{
+										required,
+										minLength: minLength(2),
+										maxLength: maxLength(15)
+									}}
+								/>
+								<Errors
+									className="text-danger"
+									model=".author"
+									component="div"
+									messages={{
+										minLength: 'Must be at least 2 characters',
+										maxLength: 'Must be 15 characters or less'
+									}}
+								/>
+							</div>
+							<div className='form-group'>
+								<Label htmlFor="comment"> Comment</Label>
+								<Control.textarea className='form-control' rows="12" model=".text" name="text" id="text" />
+							</div>
+							<Button color="primary">Submit</Button>
+						</LocalForm>
+					</ModalBody>
+				</Modal>
+	
+			</div >
+	
+		)
+	}
 }
 
 
