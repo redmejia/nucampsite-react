@@ -8,6 +8,7 @@ import { Control, LocalForm, Errors } from "react-redux-form";
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 
 const required = val => val && val.length;
@@ -17,19 +18,19 @@ const minLength = len => val => val && (val.length >= len);
 
 class CommentForm extends React.Component {
 
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
-			isModalOpen : false
+			isModalOpen: false
 		}
 
 		this.toggleModal = this.toggleModal.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
 	}
 
-	toggleModal(){
+	toggleModal() {
 		this.setState({
-			isModalOpen : !this.state.isModalOpen
+			isModalOpen: !this.state.isModalOpen
 		})
 	}
 
@@ -38,7 +39,7 @@ class CommentForm extends React.Component {
 		this.props.postComment(this.props.campsiteId, values.rating, values.author, values.text);
 	}
 
-	render(){
+	render() {
 
 		return (
 			<div>
@@ -86,9 +87,9 @@ class CommentForm extends React.Component {
 						</LocalForm>
 					</ModalBody>
 				</Modal>
-	
+
 			</div >
-	
+
 		)
 	}
 }
@@ -96,14 +97,19 @@ class CommentForm extends React.Component {
 
 function RenderCampsite({ campsite }) {
 	return (
-		<div className='col-md-5 m1 text-left'>
-			<Card>
-				<CardImg top src={baseUrl + campsite.image} alt={campsite.name} />
-				<CardBody>
-					{/* <CardTitle>{campsite.name}</CardTitle> */}
-					<CardText>{campsite.description}</CardText>
-				</CardBody>
-			</Card>
+		<div className="col-md-5 m-1">
+			<FadeTransform
+				in
+				transformProps={{
+					exitTransform: 'scale(0.5) translateY(-50%)'
+				}}>
+				<Card>
+					<CardImg top src={baseUrl + campsite.image} alt={campsite.name} />
+					<CardBody>
+						<CardText>{campsite.description}</CardText>
+					</CardBody>
+				</Card>
+			</FadeTransform>
 		</div>
 	)
 }
@@ -112,16 +118,24 @@ function RenderComments({ comments, postComment, campsiteId }) {
 	if (comments) {
 		return (
 			<div className='col col-md-5 m-1'>
-				<h4 className='text-left'>Comments</h4>
-				<ul className='list-unstyled'>
-					{comments.map(comment => <div className='text-left' key={comment.id}>
-						<li>{comment.text}</li>
-						<li>-- {comment.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</li>
-						<p></p>
-					</div>
-					)}
-					<CommentForm campsiteId={campsiteId} postComment={postComment} />
-				</ul>
+				<h4>Comments</h4>
+				<Stagger in>
+					{
+						comments.map(comment => {
+							return (
+								<Fade in key={comment.id}>
+									<div>
+										<p>
+											{comment.text}<br />
+											-- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}
+										</p>
+									</div>
+								</Fade>
+							);
+						})
+					}
+				</Stagger>
+				<CommentForm campsiteId={campsiteId} postComment={postComment} />
 			</div>
 		)
 	}
@@ -171,7 +185,7 @@ function CampsiteInfo(props) {
 						comments={props.comments}
 						postComment={props.postComment}
 						campsiteId={props.campsite.id}
-					/>  
+					/>
 				</div>
 			</div>
 		);
