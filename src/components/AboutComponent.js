@@ -4,22 +4,23 @@ import { Link } from 'react-router-dom';
 
 function RenderPartner({ partner }) {
     if (partner) {
-        return(
-        <React.Fragment>
-            <Media>
-                <Media object src={partner.image} alt={partner.name} width="150" />
-                <Media body className="ml-5 mb-4">
-                    <Media heading>
-                        {partner.name}
+        return (
+            <React.Fragment>
+                <Media>
+                    <Media object src={partner.image} alt={partner.name} width="150" />
+                    <Media body className="ml-5 mb-4">
+                        <Media heading>
+                            {partner.name}
+                        </Media>
+                        {partner.description}
                     </Media>
-                    {partner.description}
                 </Media>
-            </Media>
-        </React.Fragment>
+            </React.Fragment>
         )
     }
     return <div />
 
+    
 }
 
 function About(props) {

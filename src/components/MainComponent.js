@@ -65,7 +65,7 @@ class Main extends Component {
                     comments={this.props.comments.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
                     commentsErrMess={this.props.comments.errMess}
                     postComment={this.props.postComment}
-                />       
+                />
             );
         };
 
